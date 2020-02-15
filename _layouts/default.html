@@ -1,53 +1,56 @@
 ---
+layout: compress
+# Default layout
+# v2.0
+# https://github.com/cotes2020/jekyll-theme-chirpy
+# © 2017-2019 Cotes Chung
+# MIT Licensed
 ---
 
 <!DOCTYPE html>
-<html class="">
-<head>
-  <meta charset="UTF-8">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{{ site.data.settings.seo.description }}">
-  <meta rel="author" href="{{ site.data.settings.seo.rel-author }}">
-  <meta rel="publisher" href="{{ site.data.settings.seo.rel-publisher }}">
 
-  <title>
-    {% if page.title == "Home" %}
-      {{ site.title }}
-    {% else %}
-      {{ page.title }} | {{ site.title }}
+{% capture prefer_mode %}
+  {% if site.theme_mode != "dual" %}
+    mode="{{ site.theme_mode }}"
+  {% endif %}
+{% endcapture %}
+
+<html lang="en" {{ prefer_mode }} >
+
+  {% include head.html %}
+
+  <body data-spy="scroll" data-target="#toc">
+    <div id="sidebar" class="d-flex flex-column">
+      {% include sidebar.html %}
+    </div>
+    <div id="main-wrapper">
+      {% include topbar.html %}
+      <div id="main">
+
+        {% capture _content %}
+          {{ content }}
+        {% endcapture %}
+
+        {% include fixlinenos.html %}
+        {{ _content }}
+
+        {% include footer.html %}
+      </div>
+      {% include search-results.html %}
+    </div>
+
+    <div id="mask"></div>
+
+    <a id="back-to-top" href="#" class="btn btn-lg btn-box-shadow" role="button">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    {% if jekyll.environment == 'production' %}
+      {% include google-analytics.html %}
     {% endif %}
-  </title>
 
-  <link rel="stylesheet" href="{{ site.github.url }}/assets/css/all.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    {% include search-loader.html %}
 
-  <!-- Use Atom -->
-  {% feed_meta %}
+  </body>
 
-  <script type="text/javascript" async
-    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-  </script>
-
-  {% include analytics.html %}
-
-  <!-- Use Jekyll SEO plugin -->
-  {% seo %}
-
-</head>
-<body>
-
-<div class="site-container">
-
-  {% include header.html %}
-
-  {{ content }}
-
-</div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="{{ site.github.url }}/assets/js/functions.js"></script>
-</body>
 </html>
